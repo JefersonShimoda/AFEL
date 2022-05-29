@@ -7,7 +7,7 @@
 
         <x-jet-authentication-card>
             <x-slot name="logo">
-                <x-jet-authentication-card-logo/>
+                <x-jet-authentication-card-logo />
             </x-slot>
 
             <p class="text-md text-center mb-4">A AFEL surgiu em outubro de 2016 após varias mães se
@@ -52,8 +52,9 @@
                             {{ __('Forgot your password?') }}
                         </a>
                     @endif
-
-                    <x-jet-button class="ml-4">
+                    <a class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest focus:outline-none disabled:opacity-25 transition ease-in-out duration-150 bg-[#f29200] hover:bg-[#e58a00] focus:bg-[#e58a00] focus:border-[#e58a00] active:bg-[#e58a00] active:border-[#e58a00] ml-3 bg-[#c0c0c0] hover:bg-[#b0b0b0] focus:bg-[#b0b0b0] focus:border-[#c0c0c0] active:bg-[#b0b0b0] active:border-[#b0b0b0]"
+                        href="/register">Registrar-se</a>
+                    <x-jet-button class="ml-2">
                         {{ __('Log in') }}
                     </x-jet-button>
                 </div>

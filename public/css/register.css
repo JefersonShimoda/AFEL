@@ -1,3 +1,9 @@
 #auth-card{
     padding: 3rem;
 }
+
+label::after{
+    content: "*";
+    color: red;
+    margin-left: 3px;
+}

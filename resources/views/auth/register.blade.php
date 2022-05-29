@@ -105,7 +105,7 @@
                     <div class="mt-4">
                         <x-jet-label for="obs" :value="__('Observação: ')" />
 
-                        <x-jet-input id="obs" class="block mt-1 w-full " type="text" name="obs" :value="old('obs')" />
+                        <textarea id="obs" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full" name="obs" :value="old('obs')"></textarea>
                     </div>
 
                     {{-- data de nascimento --}}
