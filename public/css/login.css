@@ -1,0 +1,17 @@
+#auth-card{
+    background-color: white;
+}
+
+#auth-card-form{
+    box-shadow: none;
+}
+
+.organizar{
+    display:flex;
+}
+
+#background {
+    background-image: url(/img/backgroundAFEL.jpeg);
+    background-size: cover;
+    flex-grow: 1;
+}
