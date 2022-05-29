@@ -93,7 +93,6 @@
                 <option value="colaborador">Colaborador</option>
                 <option value="gestor">Gestor</option>
             </select>
-            <x-jet-input-error for="tipo" class="mt-2" />
         </div>
 
         {{-- Sexo --}}
@@ -135,8 +134,8 @@
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="cid" value="{{ __('CID') }}" />
                 <x-jet-input id="cid" type="text" class="mt-1 block w-full" wire:model.defer="state.cid"
-                    autocomplete="cep" />
-                <x-jet-input-error for="cep" class="mt-2" />
+                    autocomplete="cid" />
+                <x-jet-input-error for="cid" class="mt-2" />
             </div>
 
             {{-- Observação --}}
