@@ -67,11 +67,11 @@
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && !$this->user->hasVerifiedEmail())
                 <p class="text-sm mt-2">
-                    {{ __('Your email address is unverified.') }}
+                    {{ __('Seu endereço de e-mail não foi verificado.') }}
 
                     <button type="button" class="underline text-sm text-gray-600 hover:text-gray-900"
                         wire:click.prevent="sendEmailVerification">
-                        {{ __('Click here to re-send the verification email.') }}
+                        {{ __('Clique aqui para reenviar o e-mail de verificação.') }}
                     </button>
                 </p>
 
