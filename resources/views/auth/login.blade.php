@@ -10,9 +10,10 @@
                 <x-jet-authentication-card-logo />
             </x-slot>
 
-            <p class="text-md text-center mb-4">A AFEL surgiu em outubro de 2016 após varias mães se
-                reunirem para reivindicar fraldas. Visamos dar suporte as famílias das pessoas com
-                necessidades especiais.
+            <p class="text-md text-center mb-4">A AFEL foi idealizada em 2016, quando um grupo de mães lutando pelos
+                direitos básicos de seus filhos com deficiência decidiu criar uma Associação. Hoje a AFEL dá suporte a
+                diversas famílias lutando pela inclusão em todos os âmbitos, realizando trabalhos socioeducativos e
+                cuidando de quem cuida.
             </p>
 
             <x-jet-validation-errors class="mb-4" />
