@@ -13,7 +13,8 @@
         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
             <div x-data="{ photoName: null, photoPreview: null }" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
-                <input type="file" class="hidden" wire:model="photo" x-ref="photo" x-on:change="
+                <input type="file" class="hidden" wire:model="photo" x-ref="photo"
+                    x-on:change="
                                     photoName = $refs.photo.files[0].name;
                                     const reader = new FileReader();
                                     reader.onload = (e) => {
@@ -109,8 +110,8 @@
         {{-- CPF --}}
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="cpf" value="{{ __('CPF') }}" />
-            <x-jet-input id="cpf" type="text" class="mt-1 block w-full disabled:opacity-70" wire:model.defer="state.cpf"
-                autocomplete="cpf" disabled />
+            <x-jet-input id="cpf" type="text" class="mt-1 block w-full disabled:opacity-70"
+                wire:model.defer="state.cpf" autocomplete="cpf" disabled />
         </div>
 
         {{-- Contato --}}
@@ -130,18 +131,32 @@
         </div>
 
         @if (Auth::user()->tipo == 'associado')
-            {{-- CID --}}
+            {{-- DOENCA --}}
+            @php
+                $this->state["doença"] = App\Http\Controllers\Doenca::doencasPorUsuario(Auth::user()->id);
+            @endphp
             <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for="cid" value="{{ __('CID') }}" />
-                <x-jet-input id="cid" type="text" class="mt-1 block w-full" wire:model.defer="state.cid"
-                    autocomplete="cid" />
-                <x-jet-input-error for="cid" class="mt-2" />
+                <x-jet-label for="doença" :value="__('Doença')" />
+                @foreach (App\Http\Controllers\Doenca::listaDoencas() as $i => $doenca)
+                    <div>
+                        <x-jet-checkbox name="doença[]" id="doença_{{ $i }}"
+                            wire:model.defer="state.doença.{{ $doenca }}" value="{{ $doenca }}" />
+                        <x-jet-label class="not-required inline" for="doença_{{ $i }}">
+                            {{ $doenca }}
+                        </x-jet-label>
+                    </div>
+                    @php
+                        $i++;
+                    @endphp
+                @endforeach
+                <x-jet-input-error for="doença" class="mt-2" />
             </div>
 
             {{-- Observação --}}
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="obs" value="{{ __('Observação') }}" />
-                <textarea id="cid" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full"
+                <textarea id="obs"
+                    class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full"
                     wire:model.defer="state.obs" autocomplete="obs"></textarea>
                 <x-jet-input-error for="cep" class="mt-2" />
             </div>

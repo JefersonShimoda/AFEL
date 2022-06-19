@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Doenca;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +29,7 @@ class CreateNewUser implements CreatesNewUsers
                 'cpf' => ['required', 'cpf'],
                 'telefone' => ['required', 'celular_com_ddd'],
                 'cep' => ['required', 'formato_cep'],
-                'cid' => ['required', 'max:3'],
+                'doença'  => ['required', 'min:1'],
                 'nascimento' => ['required', 'date_format:d/m/Y'],
                 'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
             ])->validate();
@@ -44,7 +45,7 @@ class CreateNewUser implements CreatesNewUsers
             ])->validate();
         }
 
-        return User::create([
+        $res = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
@@ -53,10 +54,20 @@ class CreateNewUser implements CreatesNewUsers
             'cpf' => $input["cpf"],
             'telefone' => $input["telefone"],
             'cep' => $input["cep"],
-            'cid' => $input["tipo"] == "associado" ? $input["cid"] : null,
             'obs' => $input["tipo"] == "associado" ? $input["obs"] : null,
             'nascimento' => $input["tipo"] == "associado" ? $input["nascimento"] : null,
             'escola' =>  $input["tipo"] == "associado" ? $input["escola"] : null,
         ]);
+
+        if ($input["tipo"] == "associado") {
+            foreach ($input["doença"] as $doenca) {
+                Doenca::create([
+                    "user_id" => $res->id,
+                    "doenca" => $doenca,
+                ]);
+            }
+        }
+
+        return $res;
     }
 }

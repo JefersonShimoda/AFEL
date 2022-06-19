@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Doenca;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -19,15 +20,16 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update($user, array $input)
     {
-        // http_response_code(500);var_dump(Auth::user()->tipo);exit;
         if (Auth::user()->tipo == "associado") {
+            $input["doença"] = self::_validateDoencaArray($input["doença"]);
+
             Validator::make($input, [
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
                 'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
                 'telefone' => ['required', 'celular_com_ddd'],
                 'cep' => ['required', 'formato_cep'],
-                'cid' => ['required', 'max:3'],
+                'doença'  => ['required', 'min:1'],
             ])->validateWithBag('updateProfileInformation');
         } else {
             Validator::make($input, [
@@ -54,10 +56,20 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'email' => $input['email'],
                 'telefone' => $input['telefone'],
                 'cep' => $input['cep'],
-                'cid' => Auth::user()->tipo == "associado" ? $input['cid'] : null,
                 'obs' => Auth::user()->tipo == "associado" ? $input['obs'] : null,
                 'escola' => Auth::user()->tipo == "associado" ? $input['escola'] : null,
             ])->save();
+        }
+
+        if (Auth::user()->tipo == "associado") {
+            Doenca::where('user_id', Auth::user()->id)->delete();
+
+            foreach ($input["doença"] as $doenca) {
+                Doenca::create([
+                    "user_id" => Auth::user()->id,
+                    "doenca" => $doenca,
+                ]);
+            }
         }
     }
 
@@ -75,12 +87,24 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'email' => $input['email'],
             'telefone' => $input['telefone'],
             'cep' => $input['cep'],
-            'cid' => Auth::user()->tipo == "associado" ? $input['cid'] : null,
             'obs' => Auth::user()->tipo == "associado" ? $input['obs'] : null,
             'escola' => Auth::user()->tipo == "associado" ? $input['escola'] : null,
             'email_verified_at' => null,
         ])->save();
 
         $user->sendEmailVerificationNotification();
+    }
+
+    private static function _validateDoencaArray($doencas)
+    {
+        $doencaList = [];
+        foreach ($doencas as $doenca) {
+            $doenca = preg_replace("/[0-9]+h/", '', $doenca);
+            if (!empty($doenca)) {
+                $doencaList[] = $doenca;
+            }
+        }
+
+        return $doencaList;
     }
 }

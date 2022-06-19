@@ -17,14 +17,13 @@
             <div id="tela1">
                 <div>
                     <x-jet-label for="name" value="{{ __('Nome') }}" />
-                    <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
-                        autofocus autocomplete="name" />
+                    <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" autofocus
+                        autocomplete="name" />
                 </div>
 
                 <div class="mt-4">
                     <x-jet-label for="email" value="{{ __('Email') }}" />
-                    <x-jet-input id="email" class="block mt-1 w-full" type="text" name="email" :value="old('email')"
-                         />
+                    <x-jet-input id="email" class="block mt-1 w-full" type="text" name="email" :value="old('email')" />
                 </div>
 
                 <div class="mt-4">
@@ -36,7 +35,7 @@
                 <div class="mt-4">
                     <x-jet-label for="password_confirmation" value="{{ __('Confirmar Senha') }}" />
                     <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                        name="password_confirmation"  autocomplete="new-password" />
+                        name="password_confirmation" autocomplete="new-password" />
                 </div>
                 <div class="mt-4">
                     <x-jet-label for="tipo" :value="__('Selecione o seu perfil')" />
@@ -93,19 +92,26 @@
                 </div>
 
                 <div id="form-associado" class="hidden">
-                    {{-- CID --}}
+                    {{-- Doença --}}
                     <div class="mt-4">
-                        <x-jet-label for="cid" :value="__('CID')" />
-
-                        <x-jet-input id="cid" class="block mt-1 w-full " type="text" name="cid" :value="old('cid')"
-                            placeholder="A00" />
+                        <x-jet-label for="doença" :value="__('Doença')" />
+                        @foreach (App\Http\Controllers\Doenca::listaDoencas() as $index => $data)
+                            <div>
+                                <x-jet-checkbox name="doença[]" id="doença_{{ $index }}" value="{{ $data }}" />
+                                <x-jet-label class="not-required inline" for="doença_{{ $index }}">
+                                    {{ $data }}
+                                </x-jet-label>
+                            </div>
+                        @endforeach
                     </div>
 
                     {{-- observação --}}
                     <div class="mt-4">
-                        <x-jet-label for="obs" :value="__('Observação: ')" />
+                        <x-jet-label for="obs" class="not-required" :value="__('Observação: ')" />
 
-                        <textarea id="obs" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full" name="obs" :value="old('obs')"></textarea>
+                        <textarea id="obs"
+                            class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full"
+                            name="obs" :value="old('obs')"></textarea>
                     </div>
 
                     {{-- data de nascimento --}}

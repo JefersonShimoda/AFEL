@@ -7,3 +7,7 @@ label::after{
     color: red;
     margin-left: 3px;
 }
+
+.not-required::after{
+    content: none;
+}
